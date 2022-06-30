@@ -1,7 +1,9 @@
-package com.jpmc.theater;
+package com.jpmc.theater.util;
 
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Component;
+@Component
 public class LocalDateProvider {
     private static LocalDateProvider instance = null;
 
