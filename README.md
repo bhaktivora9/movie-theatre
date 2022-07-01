@@ -27,3 +27,20 @@ This is a poorly written application, and we're expecting the candidate to great
   * Any movies showing on 7th, you'll get 1$ discount
   * The discount amount applied only one if met multiple rules; biggest amount one
 * We want to print the movie schedule with simple text & json format
+
+
+## API
+
+Application runs on port 8080 by default.
+
+USER API's
+
+- GET /
+- GET /get/schedule/text 
+- GET /get/schedule/json
+- POST /reserve/{sequence-id} {"customer":{"id":"John","name":"John"},"howManyTickets":2}
+
+ADMIN API's
+Add security layer.
+- POST /add/movie - TBD
+- POST /add/show - TBD

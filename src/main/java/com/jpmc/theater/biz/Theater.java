@@ -3,10 +3,12 @@ package com.jpmc.theater.biz;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.jpmc.theater.model.Customer;
@@ -16,9 +18,8 @@ import com.jpmc.theater.util.LocalDateProvider;
 @Component
 public class Theater {
 
-	
 	LocalDateProvider provider;
-	
+
 	private List<Showing> schedule;
 
 	public Theater() {
@@ -66,14 +67,16 @@ public class Theater {
 	}
 
 	public String getScheduleAsText() {
+		List<String> list = new ArrayList<>();
+		list.add(provider.currentDate().toString());
+		schedule.stream().forEach(s -> {
+			String temp = s.getSequenceOfTheDay() + ": " + s.getStartTime().format(DateTimeFormatter.BASIC_ISO_DATE)
+					+ " " + s.getStartTime().format(DateTimeFormatter.ISO_LOCAL_TIME) + "	" + s.getMovie().getTitle()
+					+ " 	" + humanReadableFormat(s.getMovie().getRunningTime()) + " $" + s.getMovieFee();
+			list.add(temp);
+		});
 		StringBuilder sb = new StringBuilder();
-		sb.append(provider.currentDate());
-		sb.append("</br>===================================================</br></br>");
-		schedule.forEach(s -> sb
-				.append(s.getSequenceOfTheDay() + ": " + s.getStartTime() + "	" + s.getMovie().getTitle() + " 	"
-						+ humanReadableFormat(s.getMovie().getRunningTime()) + " $" + s.getMovieFee() + "</br>"));
-		sb.append("===================================================");
-
+		sb.append(list.stream().collect(Collectors.joining("<br>")));
 		return sb.toString();
 	}
 
@@ -96,22 +99,6 @@ public class Theater {
 		} else {
 			return "s";
 		}
-	}
-
-	public LocalDateProvider getProvider() {
-		return provider;
-	}
-
-	public void setProvider(LocalDateProvider provider) {
-		this.provider = provider;
-	}
-
-	public List<Showing> getSchedule() {
-		return schedule;
-	}
-
-	public void setSchedule(List<Showing> schedule) {
-		this.schedule = schedule;
 	}
 
 	/*

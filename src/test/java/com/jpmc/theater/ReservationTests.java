@@ -28,7 +28,6 @@ public class ReservationTests {
 	@Test
 	public void getFeeBeforDiscountTest() {
 		Reservation reservation = new Reservation(customer, showing, 3);
-		System.out.println("Reserved !");
 		assertTrue(reservation.getFeeBeforeDiscount() == 37.5);
 	}
 
@@ -46,4 +45,6 @@ public class ReservationTests {
 		String expectedMessage = "Sorry, try another show,there are only";
 		assertTrue(exception.getMessage().contains(expectedMessage));
 	}
+	
+	
 }
